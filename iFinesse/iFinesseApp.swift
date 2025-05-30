@@ -11,7 +11,8 @@ import SwiftUI
 struct iFinesseApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            RideListView()
         }
     }
 }
+ 
