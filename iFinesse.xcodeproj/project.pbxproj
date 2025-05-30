@@ -21,12 +21,20 @@
 			remoteGlobalIDString = 4A63ACE22DE39D9E00F28B1F;
 			remoteInfo = iFinesse;
 		};
+		4A63AD5F2DEA562000F28B1F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4A63ACDB2DE39D9E00F28B1F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 4A63ACE22DE39D9E00F28B1F;
+			remoteInfo = iFinesse;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		4A63ACE32DE39D9E00F28B1F /* iFinesse.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iFinesse.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4A63ACF42DE39D9F00F28B1F /* iFinesseTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iFinesseTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4A63ACFE2DE39D9F00F28B1F /* iFinesseUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iFinesseUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		4A63AD5E2DEA562000F28B1F /* RideList-ViewModel-Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "RideList-ViewModel-Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -69,6 +77,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		4A63AD5B2DEA562000F28B1F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -88,6 +103,7 @@
 				4A63ACE32DE39D9E00F28B1F /* iFinesse.app */,
 				4A63ACF42DE39D9F00F28B1F /* iFinesseTests.xctest */,
 				4A63ACFE2DE39D9F00F28B1F /* iFinesseUITests.xctest */,
+				4A63AD5E2DEA562000F28B1F /* RideList-ViewModel-Tests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -163,6 +179,26 @@
 			productReference = 4A63ACFE2DE39D9F00F28B1F /* iFinesseUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
+		4A63AD5D2DEA562000F28B1F /* RideList-ViewModel-Tests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4A63AD632DEA562000F28B1F /* Build configuration list for PBXNativeTarget "RideList-ViewModel-Tests" */;
+			buildPhases = (
+				4A63AD5A2DEA562000F28B1F /* Sources */,
+				4A63AD5B2DEA562000F28B1F /* Frameworks */,
+				4A63AD5C2DEA562000F28B1F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				4A63AD602DEA562000F28B1F /* PBXTargetDependency */,
+			);
+			name = "RideList-ViewModel-Tests";
+			packageProductDependencies = (
+			);
+			productName = "RideList-ViewModel-Tests";
+			productReference = 4A63AD5E2DEA562000F28B1F /* RideList-ViewModel-Tests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -181,6 +217,10 @@
 						TestTargetID = 4A63ACE22DE39D9E00F28B1F;
 					};
 					4A63ACFD2DE39D9F00F28B1F = {
+						CreatedOnToolsVersion = 16.2;
+						TestTargetID = 4A63ACE22DE39D9E00F28B1F;
+					};
+					4A63AD5D2DEA562000F28B1F = {
 						CreatedOnToolsVersion = 16.2;
 						TestTargetID = 4A63ACE22DE39D9E00F28B1F;
 					};
@@ -203,6 +243,7 @@
 				4A63ACE22DE39D9E00F28B1F /* iFinesse */,
 				4A63ACF32DE39D9F00F28B1F /* iFinesseTests */,
 				4A63ACFD2DE39D9F00F28B1F /* iFinesseUITests */,
+				4A63AD5D2DEA562000F28B1F /* RideList-ViewModel-Tests */,
 			);
 		};
 /* End PBXProject section */
@@ -223,6 +264,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		4A63ACFC2DE39D9F00F28B1F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4A63AD5C2DEA562000F28B1F /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -253,6 +301,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		4A63AD5A2DEA562000F28B1F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -265,6 +320,11 @@
 			isa = PBXTargetDependency;
 			target = 4A63ACE22DE39D9E00F28B1F /* iFinesse */;
 			targetProxy = 4A63ACFF2DE39D9F00F28B1F /* PBXContainerItemProxy */;
+		};
+		4A63AD602DEA562000F28B1F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 4A63ACE22DE39D9E00F28B1F /* iFinesse */;
+			targetProxy = 4A63AD5F2DEA562000F28B1F /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -389,6 +449,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = iFinesse/iFinesse.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"iFinesse/Preview Content\"";
@@ -426,6 +487,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = iFinesse/iFinesse.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"iFinesse/Preview Content\"";
@@ -543,6 +605,47 @@
 			};
 			name = Release;
 		};
+		4A63AD612DEA562000F28B1F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "kerj.RideList-ViewModel-Tests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = xros;
+				SUPPORTED_PLATFORMS = "xros xrsimulator";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 7;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/iFinesse.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/iFinesse";
+				XROS_DEPLOYMENT_TARGET = 2.2;
+			};
+			name = Debug;
+		};
+		4A63AD622DEA562000F28B1F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "kerj.RideList-ViewModel-Tests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = xros;
+				SUPPORTED_PLATFORMS = "xros xrsimulator";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 7;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/iFinesse.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/iFinesse";
+				VALIDATE_PRODUCT = YES;
+				XROS_DEPLOYMENT_TARGET = 2.2;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -578,6 +681,15 @@
 			buildConfigurations = (
 				4A63AD0F2DE39D9F00F28B1F /* Debug */,
 				4A63AD102DE39D9F00F28B1F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4A63AD632DEA562000F28B1F /* Build configuration list for PBXNativeTarget "RideList-ViewModel-Tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4A63AD612DEA562000F28B1F /* Debug */,
+				4A63AD622DEA562000F28B1F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
