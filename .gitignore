@@ -1,8 +1,12 @@
 # Xcode
-build/
-DerivedData/
 *.xcuserstate
+*.xcscmblueprint
+*.xccheckout
 *.xcworkspace/xcuserdata
+*.xcodeproj/xcuserdata
+*.xcodeproj/project.xcworkspace/xcuserdata
+*.xcodeproj/project.xcworkspace/xcshareddata/WorkspaceSettings.xcsettings
+
 
 # Swift Package Manager
 .build/
@@ -10,3 +14,5 @@ Packages/
 
 # General
 *.DS_Store
+build/
+DerivedData/
