@@ -4,8 +4,8 @@
 *.xccheckout
 *.xcworkspace/xcuserdata
 *.xcodeproj/xcuserdata
-*.xcodeproj/project.xcworkspace/xcuserdata
-*.xcodeproj/project.xcworkspace/xcshareddata/WorkspaceSettings.xcsettings
+*.xcodeproj/iFinesse.xcworkspace/xcuserdata
+*.xcodeproj/iFinesse.xcworkspace/xcshareddata/WorkspaceSettings.xcsettings
 
 
 # Swift Package Manager
