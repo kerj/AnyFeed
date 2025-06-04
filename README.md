@@ -15,13 +15,33 @@ This App will seek to parity the Strava UI while allowing a user to select what 
    git clone https://github.com/kerj/AnyFeed.git
    ```
  2.   Open the project in Xcode:
-   ```bash
-   cd AnyFeed && xed .
-   ```
+    ```bash
+    cd AnyFeed && xed .
+    ```
+ 3. Install Dependencies:
 
- 3.   Select a simulator device (e.g., iPhone 14) in Xcode.
+    This project uses Swift Package Manager (SPM) to manage dependencies.
 
- 4.   Press Run (or press Cmd + R) to build and launch the app on the simulator.
+    Xcode will automatically resolve and fetch all packages on first open.
+    If not, you can manually resolve them via:
+
+    Product → Resolve Package Versions
+
+    Or from terminal:
+
+    ```xcodebuild -resolvePackageDependencies```
+
+
+ 4.   Select a simulator device (e.g., iPhone 14) in Xcode.
+
+ 5.   Press Run (or press Cmd + R) to build and launch the app on the simulator.
+
+
+
+## 📦 Dependencies
+
+    Polyline – lightweight polyline decoder (SPM)
+
 
 Feel free to open issues or contribute!
 
