@@ -82,8 +82,14 @@ struct RideListRow: View {
 
             }.padding(.vertical, 8)
             
-            
-
+            if let region = ride.mapCenter {
+                RideMapSnapshotWithLink(
+                    region: region,
+                    polyline: ride.map.summary_polyline,
+                    start: ride.startCoordinate,
+                    end: ride.endCoordinate
+                )
+            }
         }
     }
 }
