@@ -1,20 +1,56 @@
 import Foundation
+import CoreLocation
+import MapKit
+import Polyline
 
 enum IconColor {
     case gold, silver, bronze
 }
 
+func boundingRegion(
+    from polylineString: String,
+    including start: CLLocationCoordinate2D?,
+    and end: CLLocationCoordinate2D?,
+    paddingFactor: Double = 1.3
+) -> MKCoordinateRegion? {
+    // Decode polyline into coordinates
+    let polyline = Polyline(encodedPolyline: polylineString)
+    guard let polylineCoords = polyline.coordinates, !polylineCoords.isEmpty else {
+        return nil
+    }
+
+    // Find min/max lat/lon
+    let lats = polylineCoords.map { $0.latitude }
+    let lons = polylineCoords.map { $0.longitude }
+
+    guard let minLat = lats.min(),
+          let maxLat = lats.max(),
+          let minLon = lons.min(),
+          let maxLon = lons.max()
+    else { return nil }
+
+    // Compute center and span
+    let centerLat = (minLat + maxLat) / 2
+    let centerLon = (minLon + maxLon) / 2
+    let latDelta = (maxLat - minLat) * paddingFactor
+    let lonDelta = (maxLon - minLon) * paddingFactor
+
+    let center = CLLocationCoordinate2D(latitude: centerLat, longitude: centerLon)
+    let span = MKCoordinateSpan(latitudeDelta: latDelta, longitudeDelta: lonDelta)
+
+    return MKCoordinateRegion(center: center, span: span)
+}
+
 extension RideListView {
-    @Observable
-    class ViewModel {
-        var rides: [Ride] = []
-        var displayRides: [RideViewModel] {
+    class ViewModel: ObservableObject {
+        @Published var rides: [Ride] = []
+         var displayRides: [RideViewModel] {
             rides.map { RideViewModel(ride: $0) }
         }
 
         func loadRides() {
             // mock data for now
-            self.rides = makeMockRides(count: 3)
+            self.rides = makeMockRides(count: 20)
 
         }
     }
@@ -22,6 +58,11 @@ extension RideListView {
 
 struct RideViewModel: Identifiable {
     private let ride: Ride
+    
+    private func coordinate(from array: [Double]?) -> CLLocationCoordinate2D? {
+        guard let array = array, array.count == 2 else { return nil }
+        return CLLocationCoordinate2D(latitude: array[0], longitude: array[1])
+    }
 
     var id: Int { ride.id }
     var name: String { ride.name }
@@ -41,7 +82,21 @@ struct RideViewModel: Identifiable {
         formatter.timeStyle = .short
         return formatter.string(from: ride.start_date_local)
     }
+    
 
+    var startCoordinate: CLLocationCoordinate2D? {
+        coordinate(from: ride.start_latlng)
+    }
+
+    var endCoordinate: CLLocationCoordinate2D? {
+        coordinate(from: ride.end_latlng)
+    }
+    
+    var mapCenter: MKCoordinateRegion? {
+        guard let polyline = ride.map.summary_polyline else { return nil }
+        return boundingRegion(from: polyline, including: startCoordinate, and: endCoordinate)
+    }
+    
     var totalElevationGain: String {
         "\(ride.total_elevation_gain) m"
     }
@@ -64,6 +119,10 @@ struct RideViewModel: Identifiable {
         default:
             return []
         }
+    }
+    
+    var map: MapData {
+        ride.map
     }
 
     // others?

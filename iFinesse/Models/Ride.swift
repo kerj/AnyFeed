@@ -134,7 +134,7 @@ let mockRide = Ride(
 func makeRandomRide(index: Int) -> Ride {
   let rideId = Int.random(in: 1000_000...9999_999)
   let athlete = Athlete(id: rideId, resource_state: 1)
-  let map = MapData(id: "map\(rideId)", summary_polyline: nil, resource_state: 2)
+  let map = MapData(id: "map\(rideId)", summary_polyline: "iz{tGt~skV]zD@fGtClHDhLl@\\fJCjBh@r@m@YnA`@|BrBcD{B|EQjCdFhObAQLt@c@xBcAV[pBoWf\\}i@viAZr@nGAVfKjKKV`@l@xhAkG\\Sb@Xvo@{BjUR~@tBNH`ToBZcBdBiH~DgBpEyBb@mCnGBbC{@hDbAzDnD|Ev@bCSx@mDgBmAx@iEaBqDbA_FN{At@iC[a@ZUtBwC]cEzCcCzC[vFpAhBGpBl@nEvA~B|AnAbA~EtAvB@n@iCe@eCeDyEe@q@v@NpEi@t@uDkG?iFs@YqEnDc@xAKpFuBMkBnDG|BwALcHfDUfDwCUIhEsAOgA_Aq@XeBpDJzEmAfAsAjEkBPJpDkBZiAfAGp@n@rCqA~@YxAhAxEmArBXnE~@jAElBhCpArAvBzJxEtG`GLr@cAXeMkBwFh@HzArB`H`IfNSl@a@CsNkJe@Be@fFiBpCr@tCOzBXlChBxBBn@y@pAqCwBk@TaAfECpLw@]_FwR}CaDi@VS`CaBXYdDTpAbBr@Vn@Ip@{BhCf@zAC`Bv@jFKt@q@EaA}AcE}Cm@RgAnCi@VwAwC}AcAe@t@WrGe@\\{AaBu@oBaBe@y@eA}Ab@qD[oCeCaByC?rA@k@VBxElFhDZfAm@lAlAzATtCfFd@e@VuGl@g@nAf@zAlDd@MrA{Ch@QlGbGh@@e@eKi@sAvBiCLq@]u@{As@QkBT_CvA_@`@iCl@M`DxCrEzRv@XBaL|@wEv@S`CxBh@Q^{@My@}AmBa@mCJqBm@iDbBeCd@oFp@?fN~Ix@OMoAmH_LgBsFU_DxH[lKhBv@UIo@eDwDcIeFaDaAqAqB_CiAQ_CcAsAWiElAmBqAuFNw@`BsAi@mDfAsAhBOGgEfBAtA{EjAm@DiGtBoDnDnARc@]oBLy@tCZX[McBRu@fAKjEmCfBKBcCpBuDnBPDoEf@}B`DqB|@gAj@b@FfF~CbGj@QCmFv@w@|Eh@pC`DxBj@?}@gBoCm@oDuD{Eo@oDD}BoA{BRqFzHuH|C`@r@sCrCJbBq@`JuA~EzA|Bs@nBbBv@QeA{DeD_EaAoDb@sCYyGpBwGhC}BpAqDhBqBnFgBbByE@{K~BqVy@wuARg@lGQYiIH{@ZT[uBHkHhCg@o@w|@jGi@F]P\\rGQYcJNq@wFB_CiB?i@xJ_StUgYj@eBbB{BCaCiAIiFgOVgCxBkFwBhD_@wBXkAsBHa@{EqKc@GiFeCsHAmQ", resource_state: 2)
 
   return Ride(
     athlete: athlete,
@@ -145,8 +145,10 @@ func makeRandomRide(index: Int) -> Ride {
     distance: Double.random(in: 5_000...50_000),
     moving_time: Int.random(in: 600...7200),
     workout_type: nil,
-    start_latlng: [Double.random(in: 40.0...50.0), Double.random(in: -125.0 ... -120.0)],
-    end_latlng: [Double.random(in: 40.0...50.0), Double.random(in: -125.0 ... -120.0)],
+    start_latlng: [45.53, -122.66],
+    end_latlng: [45.53, -122.66],
+//    start_latlng: [Double.random(in: 40.0...50.0), Double.random(in: -125.0 ... -120.0)],
+//    end_latlng: [Double.random(in: 40.0...50.0), Double.random(in: -125.0 ... -120.0)],
     location_city: ["Portland", "Seattle", "San Francisco", "Denver"].randomElement(),
     location_state: ["OR", "WA", "CA", "CO"].randomElement(),
     elapsed_time: Int.random(in: 600...7200),
