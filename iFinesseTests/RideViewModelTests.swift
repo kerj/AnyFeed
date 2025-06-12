@@ -17,58 +17,68 @@ final class RideViewModelTests: XCTestCase {
             overrides: [
                 { $0.distance = 10000.0 }
             ])
-        let viewModel = RideViewModel(ride: rides[0])
+        
+        let ride = rides.map(Ride.init)[0]
+        let viewModel = RideViewModel(ride: ride)
 
         XCTAssertEqual(viewModel.formatted, "10.00 km")
     }
 
     func testMedalIcons_variousAchievementCounts() {
-        let aNegativeRide = makeMockRides(
+        let aNegativeRideDTO = makeMockRides(
             count: 1,
             overrides: [
                 { $0.achievement_count = -3 }
             ])
-        let a0Ride = makeMockRides(
+        let a0RideDTO = makeMockRides(
             count: 1,
             overrides: [
                 { $0.achievement_count = 0 }
             ])
 
-        let a1Ride = makeMockRides(
+        let a1RideDTO = makeMockRides(
             count: 1,
             overrides: [
                 { $0.achievement_count = 1 }
             ])
-        let a2Ride = makeMockRides(
+        let a2RideDTO = makeMockRides(
             count: 1,
             overrides: [
                 { $0.achievement_count = 2 }
             ])
-        let a3Ride = makeMockRides(
+        let a3RideDTO = makeMockRides(
             count: 1,
             overrides: [
                 { $0.achievement_count = 3 }
             ])
-
-        let bronzeRide = RideViewModel(ride: a1Ride[0])
+        
+        let a1Ride = a1RideDTO.map(Ride.init)[0]
+        let bronzeRide = RideViewModel(ride: a1Ride)
+        
         XCTAssertEqual(bronzeRide.medalIcons.count, 1)
         XCTAssertEqual(bronzeRide.medalIcons.first?.1, .bronze)
 
-        let silverBronzeRide = RideViewModel(ride: a2Ride[0])
+        let a2Ride = a2RideDTO.map(Ride.init)[0]
+        let silverBronzeRide = RideViewModel(ride: a2Ride)
+        
         XCTAssertEqual(silverBronzeRide.medalIcons.count, 2)
         XCTAssertEqual(silverBronzeRide.medalIcons[0].1, .silver)
         XCTAssertEqual(silverBronzeRide.medalIcons[1].1, .bronze)
-
-        let goldSilverBronzeRide = RideViewModel(ride: a3Ride[0])
+        
+        let a3Ride = a3RideDTO.map(Ride.init)[0]
+        let goldSilverBronzeRide = RideViewModel(ride: a3Ride)
+        
         XCTAssertEqual(goldSilverBronzeRide.medalIcons.count, 3)
         XCTAssertEqual(goldSilverBronzeRide.medalIcons[0].1, .gold)
         XCTAssertEqual(goldSilverBronzeRide.medalIcons[1].1, .silver)
         XCTAssertEqual(goldSilverBronzeRide.medalIcons[2].1, .bronze)
 
-        let zeroRide = RideViewModel(ride: a0Ride[0])
+        let a0Ride = a0RideDTO.map(Ride.init)[0]
+        let zeroRide = RideViewModel(ride: a0Ride)
         XCTAssertTrue(zeroRide.medalIcons.isEmpty)
-
-        let negativeRide = RideViewModel(ride: aNegativeRide[0])
+        
+        let aNegativeRide = aNegativeRideDTO.map(Ride.init)[0]
+        let negativeRide = RideViewModel(ride: aNegativeRide)
         XCTAssertTrue(negativeRide.medalIcons.isEmpty)
     }
 

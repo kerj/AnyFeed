@@ -44,17 +44,34 @@ func boundingRegion(
 extension RideListView {
     class ViewModel: ObservableObject {
         @Published var rides: [Ride] = []
-         var displayRides: [RideViewModel] {
+        @Published var errorMessage: String?
+
+        private let service = RideService()
+
+        var displayRides: [RideViewModel] {
             rides.map { RideViewModel(ride: $0) }
         }
-
+        
         func loadRides() {
-            // mock data for now
-            self.rides = makeMockRides(count: 20)
-
+            print("Loading Rides....")
+            service.fetchRides { [weak self] result in
+                Task { @MainActor in
+                    switch result {
+                    case .success(let fetchedRides):
+                        print("fetched", fetchedRides)
+                        self?.rides = fetchedRides
+                  
+                    case .failure(let error):
+                        print("Failed")
+                        self?.errorMessage =
+                            "Failed to load: \(error.localizedDescription)"
+                    }
+                }
+            }
         }
     }
 }
+
 
 struct RideViewModel: Identifiable {
     private let ride: Ride
@@ -70,8 +87,8 @@ struct RideViewModel: Identifiable {
     var kilometers: Double { ride.distance / 1000 }
     var formatted: String { String(format: "%.2f km", kilometers) }
 
-    var durationMinutes: Int {
-        ride.moving_time / 60
+    var durationMinutes: Double {
+        ride.movingTime / 60
     }
     var athlete: String {
         "\(ride.athlete.id)"
@@ -80,16 +97,16 @@ struct RideViewModel: Identifiable {
         let formatter = DateFormatter()
         formatter.dateStyle = .medium
         formatter.timeStyle = .short
-        return formatter.string(from: ride.start_date_local)
+        return formatter.string(from: ride.startDateLocal)
     }
     
 
     var startCoordinate: CLLocationCoordinate2D? {
-        coordinate(from: ride.start_latlng)
+        coordinate(from: ride.startLatlng)
     }
 
     var endCoordinate: CLLocationCoordinate2D? {
-        coordinate(from: ride.end_latlng)
+        coordinate(from: ride.endLatlng)
     }
     
     var mapCenter: MKCoordinateRegion? {
@@ -98,10 +115,10 @@ struct RideViewModel: Identifiable {
     }
     
     var totalElevationGain: String {
-        "\(ride.total_elevation_gain) m"
+        "\(ride.totalElevationGain) m"
     }
     var achievementCount: Int {
-        ride.achievement_count
+        ride.achievementCount
     }
 
     // This returns tuples of (iconName, color) to use in the view
