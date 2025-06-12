@@ -13,7 +13,7 @@ struct RideListView: View {
 
     var body: some View {
         NavigationView {
-            List(viewModel.displayRides) { ride in
+            List(viewModel.displayRides.reversed()) { ride in
                 RideListRow(ride: ride) {
                     iconColor in color(for: iconColor)
                 }
