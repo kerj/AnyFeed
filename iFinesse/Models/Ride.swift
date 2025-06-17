@@ -1,8 +1,190 @@
 import Foundation
 
-struct Athlete: Decodable {
+struct AthleteDTO: Decodable {
+    let id: Int?
+    let username: String?
+    let resource_state: Int?
+    let firstname: String?
+    let lastname: String?
+    let city: String?
+    let state: String?
+    let country: String?
+    let sex: String?
+    let premium: Bool?
+    let created_at: String?
+    let updated_at: String?
+    let badge_type_id: Int?
+    let profile_medium: String?
+    let profile: String?
+    let friend: String?
+    let follower: String?
+    let follower_count: Int?
+    let friend_count: Int?
+    let mutual_friend_count: Int?
+    let athlete_type: Int?
+    let date_preference: String?
+    let measurement_preference: String?
+    let ftp: Int?
+    let weight: Double?
+    let bikes: [BikeDTO]?
+    let shoes: [ShoeDTO]?
+    // Custom init with defaults
+    init(
+        id: Int? = nil,
+        username: String? = nil,
+        resource_state: Int? = nil,
+        firstname: String? = nil,
+        lastname: String? = nil,
+        city: String? = nil,
+        state: String? = nil,
+        country: String? = nil,
+        sex: String? = nil,
+        premium: Bool? = nil,
+        created_at: String? = nil,
+        updated_at: String? = nil,
+        badge_type_id: Int? = nil,
+        profile_medium: String? = nil,
+        profile: String? = nil,
+        friend: String? = nil,
+        follower: String? = nil,
+        follower_count: Int? = nil,
+        friend_count: Int? = nil,
+        mutual_friend_count: Int? = nil,
+        athlete_type: Int? = nil,
+        date_preference: String? = nil,
+        measurement_preference: String? = nil,
+        ftp: Int? = nil,
+        weight: Double? = nil,
+        bikes: [BikeDTO]? = nil,
+        shoes: [ShoeDTO]? = nil
+    ) {
+        self.id = id
+        self.username = username
+        self.resource_state = resource_state
+        self.firstname = firstname
+        self.lastname = lastname
+        self.city = city
+        self.state = state
+        self.country = country
+        self.sex = sex
+        self.premium = premium
+        self.created_at = created_at
+        self.updated_at = updated_at
+        self.badge_type_id = badge_type_id
+        self.profile_medium = profile_medium
+        self.profile = profile
+        self.friend = friend
+        self.follower = follower
+        self.follower_count = follower_count
+        self.friend_count = friend_count
+        self.mutual_friend_count = mutual_friend_count
+        self.athlete_type = athlete_type
+        self.date_preference = date_preference
+        self.measurement_preference = measurement_preference
+        self.ftp = ftp
+        self.weight = weight
+        self.bikes = bikes
+        self.shoes = shoes
+    }
+}
+
+struct BikeDTO: Decodable {
+    let id: String?
+    let primary: Bool?
+    let name: String?
+    let resource_state: Int?
+    let distance: Double?
+}
+
+struct ShoeDTO: Decodable {
+    let id: String?
+    let primary: Bool?
+    let name: String?
+    let resource_state: Int?
+    let distance: Double?
+}
+
+struct Bike {
+    let id: String
+    let name: String
+    let distance: Double
+    let isPrimary: Bool
+}
+
+struct Shoe {
+    let id: String
+    let name: String
+    let distance: Double
+    let isPrimary: Bool
+}
+
+enum Gender: String {
+    case male = "M"
+    case female = "F"
+    case other = "O"
+    case unspecified
+
+    init(from raw: String?) {
+        self = Gender(rawValue: raw ?? "") ?? .unspecified
+    }
+}
+
+struct Athlete {
     let id: Int
-    let resource_state: Int
+    let username: String
+    let firstname: String
+    let lastname: String
+    let city: String
+    let state: String
+    let country: String
+    let gender: Gender
+    let isPremium: Bool
+    let createdAt: String
+    let updatedAt: String
+    let profileURL: URL?
+    let followerCount: Int
+    let friendCount: Int
+    let weight: Double
+    let resourceState: Int
+    let bikes: [Bike]
+    let shoes: [Shoe]
+
+    init(from dto: AthleteDTO) {
+        self.id = dto.id.or(-1)
+        self.resourceState = dto.resource_state.or(0)
+        self.username = dto.username.or("")
+        self.firstname = dto.firstname.or("")
+        self.lastname = dto.lastname.or("")
+        self.city = dto.city.or("")
+        self.state = dto.state.or("")
+        self.country = dto.country.or("")
+        self.gender = Gender(from: dto.sex)
+        self.isPremium = dto.premium.or(false)
+        self.createdAt = dto.created_at.or("")
+        self.updatedAt = dto.updated_at.or("")
+        self.profileURL = URL(string: dto.profile.or(""))
+        self.followerCount = dto.follower_count.or(0)
+        self.friendCount = dto.friend_count.or(0)
+        self.weight = dto.weight.or(0)
+
+        self.bikes = (dto.bikes ?? []).map {
+            Bike(
+                id: $0.id.or(""),
+                name: $0.name.or(""),
+                distance: $0.distance.or(0),
+                isPrimary: $0.primary.or(false)
+            )
+        }
+
+        self.shoes = (dto.shoes ?? []).map {
+            Shoe(
+                id: $0.id.or(""),
+                name: $0.name.or(""),
+                distance: $0.distance.or(0),
+                isPrimary: $0.primary.or(false)
+            )
+        }
+    }
 }
 
 struct MapData: Decodable {
@@ -12,7 +194,7 @@ struct MapData: Decodable {
 }
 
 struct RideDTO: Decodable {
-    var athlete: Athlete?
+    var athlete: AthleteDTO?
     var map: MapData?
 
     var resource_state: Int?
@@ -69,7 +251,7 @@ struct RideDTO: Decodable {
 
 
 struct Ride {
-    private static let defaultAthlete = Athlete(id: -1, resource_state: 0)
+    private static let defaultAthlete = AthleteDTO(id: -1, resource_state: 0)
     private static let defaultMap = MapData(id: "", summary_polyline: "", resource_state: 0)
     
     let athlete: Athlete
@@ -127,7 +309,7 @@ struct Ride {
     let sufferScore: Int
 
     init(from dto: RideDTO) {
-        self.athlete = dto.athlete.or(Self.defaultAthlete)
+        self.athlete = Athlete(from: dto.athlete.or(Self.defaultAthlete))
         self.map =
         dto.map.or(Self.defaultMap)
 
@@ -184,7 +366,7 @@ struct Ride {
     }
 }
 
-let testAthlete: Athlete = Athlete(
+let testAthlete: AthleteDTO = AthleteDTO(
     id: 134815,
     resource_state: 1
 )
@@ -250,7 +432,7 @@ let mockRide = RideDTO(
 
 func makeRandomRide(index: Int) -> RideDTO {
     let rideId = Int.random(in: 1000_000...9999_999)
-    let athlete = Athlete(id: rideId, resource_state: 1)
+    let athlete = AthleteDTO(id: rideId, resource_state: 1)
     let map = MapData(
         id: "map\(rideId)",
         summary_polyline:
