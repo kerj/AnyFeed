@@ -15,6 +15,7 @@ extension StravaView {
         @Published var authToken: String?
         @Published var appId: String = ""
         @Published var secret: String = ""
+        @Published var currentAthlete: Athlete?
 
         var isAuthDisabled: Bool {
             !appId.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
@@ -72,6 +73,22 @@ extension StravaView {
             }
         }
 
+        func getAthleteFromAuth(athleteJson: [String: Any]) {
+            do {
+                let data = try JSONSerialization.data(
+                    withJSONObject: athleteJson)
+                let dto = try JSONDecoder().decode(AthleteDTO.self, from: data)
+                
+                DispatchQueue.main.async {
+                    self.currentAthlete = Athlete(from: dto)
+                }
+              
+
+            } catch {
+                print("Failed to decode athlete DTO:", error)
+            }
+        }
+
         func exchangeCodeForToken(code: String?) async {
             guard
                 let url = URL(
@@ -107,12 +124,14 @@ extension StravaView {
                 let (data, _) = try await URLSession.shared.data(for: request)
                 if let json = try JSONSerialization.jsonObject(with: data)
                     as? [String: Any],
-                    let accessToken = json["access_token"] as? String
+                    let accessToken = json["access_token"] as? String,
+                    let athlete = json["athlete"] as? [String: Any]
                 {
                     // Main thread update
                     await MainActor.run {
                         self.authToken = accessToken
                     }
+                    getAthleteFromAuth(athleteJson: athlete)
 
                     print(json.keys, json.values)
                 } else {
@@ -145,6 +164,7 @@ extension StravaView {
             return print("pressed sign in")
         }
 
+        // App specific logic since we are using the Ride service
         func fetchStravaRideList() async -> [Ride] {
             guard self.authToken != nil else { return [] }
 
