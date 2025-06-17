@@ -8,43 +8,34 @@
 import Foundation
 
 class RideService {
-    private let baseURL = "http://127.0.0.1:5266"
+    private let baseURL = "https://www.strava.com/api/v3"
 
-    func fetchRides(completion: @escaping (Result<[Ride], Error>) -> Void) {
-        guard let url = URL(string: "\(baseURL)/auth/strava/login") else {
-            completion(.failure(NetworkError.invalidURL))
-            return
+    func fetchRides(
+        token: String, after: Int = 1_746_404_036, perPage: Int = 100
+    ) async throws -> [Ride] {
+
+        guard
+            let url = URL(
+                string:
+                    "\(baseURL)/athlete/activities?after=\(after)&per_page=\(perPage)"
+            )
+        else {
+            throw NetworkError.invalidURL
         }
 
-        URLSession.shared.dataTask(with: url) { data, _, error in
-            if let error = error {
-                completion(.failure(error))
-                return
-            }
+        var request = URLRequest(url: url)
+        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
 
-            guard let data = data else {
-                completion(.failure(NetworkError.noData))
-                return
-            }
+        let (data, _) = try await URLSession.shared.data(for: request)
 
-            do {
-//                
-//                if let jsonStr = String(data: data, encoding: .utf8) {
-//                    print(jsonStr)
-//                }
-//                
-                let decoder = JSONDecoder()
-                decoder.dateDecodingStrategy = .iso8601
-                
-                let decoded = try decoder.decode([RideDTO].self, from: data)
-                let rides = decoded.map(Ride.init)
-               
-                completion(.success(rides))
-            } catch {
-                print("Decode Fail", error)
-                completion(.failure(error))
-            }
-        }.resume()
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .iso8601
+
+        let decoded = try decoder.decode([RideDTO].self, from: data)
+        let rides = decoded.map(Ride.init)
+
+        return rides
+
     }
 
     enum NetworkError: Error {
