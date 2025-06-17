@@ -7,7 +7,7 @@
 
 import XCTest
 
-@testable import iFinesse  // replace with your app module name
+@testable import iFinesse
 
 final class RideViewModelTests: XCTestCase {
 
