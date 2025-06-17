@@ -32,9 +32,26 @@ This App will seek to parity the Strava UI while allowing a user to select what 
     ```xcodebuild -resolvePackageDependencies```
 
 
- 4.   Select a simulator device (e.g., iPhone 14) in Xcode.
+ 4.   Before going further, you will need to have your own Strava app details setup:
 
- 5.   Press Run (or press Cmd + R) to build and launch the app on the simulator.
+      ```https://www.strava.com/settings/api```
+
+      A. you need your `Client ID`
+
+      B. you need your `Client Secret`
+
+      C. you need to set your Authorization Callback Domain
+      
+      To get this app started the simplest way, set your Authorization Callback Domain to "ifinesse" as the app is setup to use that.
+      Feel free to tinker and change that to whatever you want, though you will need to update the plist as well
+      as the callback uri to match whatever you choose.
+   
+
+ 5.   Select a simulator device (e.g., iPhone 14) in Xcode.
+
+ 6.   Press Run (or press Cmd + R) to build and launch the app on the simulator.
+
+ 7. Enter your Client ID and Client Secret and Press Login to follow the prompts from Strava and You should see your activities.   
 
 
 
