@@ -11,8 +11,8 @@ struct RideListView: View {
         }
     }
     
-    init(rides: [Ride]) {
-        _viewModel = StateObject(wrappedValue: ViewModel(rides: rides))
+    init(rides: [Ride], athlete: Athlete) {
+        _viewModel = StateObject(wrappedValue: ViewModel(rides: rides, fullAthlete: athlete))
     }
     
     var body: some View {

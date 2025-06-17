@@ -10,6 +10,7 @@ import SwiftUI
 struct StravaView: View {
     @StateObject private var viewModel = ViewModel()
     @State private var rides: [Ride]? = nil
+    @State private var currentAthlete: Athlete? = nil
     
 
     var body: some View {
@@ -17,12 +18,13 @@ struct StravaView: View {
             if viewModel.authToken != nil {
                 Group {
                     if let rides = rides {
-                        RideListView(rides: rides)
+                        RideListView(rides: rides, athlete: currentAthlete ?? Athlete(from: AthleteDTO()))
                     } else {
                         Text("Fetching Activities...")
                     }
                 }.task {
                     let fetched = await viewModel.fetchStravaRideList()
+                    currentAthlete = viewModel.currentAthlete ?? Athlete(from: AthleteDTO())
                     rides = fetched
                 }
                 

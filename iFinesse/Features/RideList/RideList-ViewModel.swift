@@ -44,16 +44,18 @@ func boundingRegion(
 extension RideListView {
     class ViewModel: ObservableObject {
         @Published var rides: [Ride] = []
+        @Published var fullAthlete: Athlete
         @Published var errorMessage: String?
         
 
-        init(rides: [Ride], errorMessage: String? = nil) {
+        init(rides: [Ride], fullAthlete: Athlete, errorMessage: String? = nil) {
             self.rides = rides
+            self.fullAthlete = fullAthlete
             self.errorMessage = errorMessage
         }
 
         var displayRides: [RideViewModel] {
-            rides.map { RideViewModel(ride: $0) }
+            rides.map { RideViewModel(ride: $0, fullAthlete: fullAthlete) }
         }
         
     }
@@ -61,7 +63,13 @@ extension RideListView {
 
 // TODO: This needs revisited
 struct RideViewModel: Identifiable {
+    init(ride: Ride, fullAthlete: Athlete) {
+        self.ride = ride
+        self.fullAthlete = fullAthlete
+    }
+    
     private let ride: Ride
+    private let fullAthlete: Athlete
     
     private func coordinate(from array: [Double]?) -> CLLocationCoordinate2D? {
         guard let array = array, array.count == 2 else { return nil }
@@ -77,8 +85,8 @@ struct RideViewModel: Identifiable {
     var durationMinutes: Double {
         ride.movingTime / 60
     }
-    var athlete: String {
-        "\(ride.athlete.id)"
+    var athlete: Athlete {
+        fullAthlete
     }
     var formattedStartDate: String {
         let formatter = DateFormatter()
@@ -131,7 +139,4 @@ struct RideViewModel: Identifiable {
 
     // others?
 
-    init(ride: Ride) {
-        self.ride = ride
-    }
 }
