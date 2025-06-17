@@ -45,34 +45,21 @@ extension RideListView {
     class ViewModel: ObservableObject {
         @Published var rides: [Ride] = []
         @Published var errorMessage: String?
+        
 
-        private let service = RideService()
+        init(rides: [Ride], errorMessage: String? = nil) {
+            self.rides = rides
+            self.errorMessage = errorMessage
+        }
 
         var displayRides: [RideViewModel] {
             rides.map { RideViewModel(ride: $0) }
         }
         
-        func loadRides() {
-            print("Loading Rides....")
-            service.fetchRides { [weak self] result in
-                Task { @MainActor in
-                    switch result {
-                    case .success(let fetchedRides):
-                        print("fetched", fetchedRides)
-                        self?.rides = fetchedRides
-                  
-                    case .failure(let error):
-                        print("Failed")
-                        self?.errorMessage =
-                            "Failed to load: \(error.localizedDescription)"
-                    }
-                }
-            }
-        }
     }
 }
 
-
+// TODO: This needs revisited
 struct RideViewModel: Identifiable {
     private let ride: Ride
     
