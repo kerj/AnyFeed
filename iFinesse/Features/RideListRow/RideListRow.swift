@@ -32,8 +32,9 @@ struct RideListRow: View {
                 VStack(alignment: .leading, spacing: 2) {
                     Text(ride.name)
                         .font(.headline)
-                    Text("This is a description placeholder!!!")
-                        .font(.subheadline).padding(.vertical, 4)
+                    Spacer()
+//                    Text("This is a description placeholder!!!")
+//                        .font(.subheadline).padding(.vertical, 4)
                 }
                 HStack {
                     VStack(alignment: .leading) {
@@ -68,17 +69,17 @@ struct RideListRow: View {
                     }
 
                 }
-                HStack(spacing: 16) {
-                    Image(systemName: "trophy.fill").foregroundColor(
-                        .yellow
-                    ).font(.title)
-
-                    Text("Hello World!").font(.subheadline)
-                    Spacer()
-                }.padding(8).frame(maxWidth: .infinity)
-                    .background(
-                        RoundedRectangle(cornerRadius: 10).fill(
-                            Color.gray.opacity(0.2)))
+//                HStack(spacing: 16) {
+//                    Image(systemName: "trophy.fill").foregroundColor(
+//                        .yellow
+//                    ).font(.title)
+//
+//                    Text("Hello World!").font(.subheadline)
+//                    Spacer()
+//                }.padding(8).frame(maxWidth: .infinity)
+//                    .background(
+//                        RoundedRectangle(cornerRadius: 10).fill(
+//                            Color.gray.opacity(0.2)))
 
             }.padding(.vertical, 8)
             
