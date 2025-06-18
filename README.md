@@ -9,6 +9,25 @@ This App will seek to parity the Strava UI while allowing a user to select what 
 
 ## Running Locally
 
+### Pre-Steps
+
+This project was made using Xcode version 16.2 and uses Swift features like async/await
+
+This is setup to work with your Strava API settings So you should have a
+API application setup on Strava. You can manage that from here:
+
+```https://www.strava.com/settings/api```
+
+      A. you need your `Client ID`
+
+      B. you need your `Client Secret`
+
+      C. you need to set your Authorization Callback Domain 
+
+The authorized callback domain can be found when you edit details on the posted link above.
+Set this to "ifinesse" so that this will work out of the box. Feel free to change this later.
+
+
 1. Clone the repository:
 
    ```bash
@@ -36,16 +55,6 @@ This App will seek to parity the Strava UI while allowing a user to select what 
 
       ```https://www.strava.com/settings/api```
 
-      A. you need your `Client ID`
-
-      B. you need your `Client Secret`
-
-      C. you need to set your Authorization Callback Domain
-      
-      To get this app started the simplest way, set your Authorization Callback Domain to "ifinesse" as the app is setup to use that.
-      Feel free to tinker and change that to whatever you want, though you will need to update the plist as well
-      as the callback uri to match whatever you choose.
-   
 
  5.   Select a simulator device (e.g., iPhone 14) in Xcode.
 
