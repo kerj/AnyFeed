@@ -26,6 +26,8 @@ API application setup on Strava. You can manage that from here:
 
 The authorized callback domain can be found when you edit details on the posted link above.
 Set this to "ifinesse" so that this will work out of the box. Feel free to change this later.
+Strava will also require a Website to be enter in the setting, I used https://ifinesse.app but 
+It seems that you can use any without issue.
 
 
 1. Clone the repository:
@@ -56,7 +58,7 @@ Set this to "ifinesse" so that this will work out of the box. Feel free to chang
       ```https://www.strava.com/settings/api```
 
 
- 5.   Select a simulator device (e.g., iPhone 14) in Xcode.
+ 5.   Select a simulator device (e.g., iPhone 16) in Xcode.
 
  6.   Press Run (or press Cmd + R) to build and launch the app on the simulator.
 
