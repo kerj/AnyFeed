@@ -12,10 +12,12 @@ extension StravaView {
 
         private var authSession: ASWebAuthenticationSession?
         // 6 Hour validity
-        @Published var authToken: String?
         @Published var appId: String = ""
         @Published var secret: String = ""
         @Published var currentAthlete: Athlete?
+        @Published var zones: Zones?
+        @Published var stats: Totals?
+        @Published var rides: [Ride]?
 
         var isAuthDisabled: Bool {
             !appId.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
@@ -34,7 +36,7 @@ extension StravaView {
             let redirectURI = "ifinesse://ifinesse"
             let responseType = "code"
             let approvalPrompt = "auto"
-            let scopes = "activity:read"  // or "activity:read,profile:read_all"
+            let scopes = "activity:read,profile:read_all"  // or "activity:read,profile:read_all"
             let state = "test"
 
             let encodedScopes = scopes.addingPercentEncoding(
@@ -68,7 +70,6 @@ extension StravaView {
                 }
 
                 authSession?.presentationContextProvider = self
-                authSession?.prefersEphemeralWebBrowserSession = true
                 authSession?.start()
             }
         }
@@ -78,11 +79,9 @@ extension StravaView {
                 let data = try JSONSerialization.data(
                     withJSONObject: athleteJson)
                 let dto = try JSONDecoder().decode(AthleteDTO.self, from: data)
-                
                 DispatchQueue.main.async {
                     self.currentAthlete = Athlete(from: dto)
                 }
-              
 
             } catch {
                 print("Failed to decode athlete DTO:", error)
@@ -129,7 +128,7 @@ extension StravaView {
                 {
                     // Main thread update
                     await MainActor.run {
-                        self.authToken = accessToken
+                        RideService.authToken = accessToken
                     }
                     getAthleteFromAuth(athleteJson: athlete)
 
@@ -164,18 +163,30 @@ extension StravaView {
             return print("pressed sign in")
         }
 
-        // App specific logic since we are using the Ride service
-        func fetchStravaRideList() async -> [Ride] {
-            guard self.authToken != nil else { return [] }
+        func getAthleteProfile() async {
+            guard let athlete = self.currentAthlete,
+                athlete.id != -1
+            else { return }
 
             do {
-                let rides = try await RideService().fetchRides(
-                    token: self.authToken!)
-                return rides
+                let zones = try await RideService().getZones()
+                await MainActor.run {
+                    self.zones = zones
+                }
             } catch {
-                print("Error on fetching rides....")
-                return []
+                print("Error getting zones")
             }
+
+            do {
+                let stats = try await RideService().getProfile(
+                    athleteId: athlete.id)
+                await MainActor.run {
+                    self.stats = stats
+                }
+            } catch {
+                print("Error getting stats")
+            }
+
         }
     }
 }

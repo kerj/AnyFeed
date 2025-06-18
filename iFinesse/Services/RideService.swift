@@ -9,9 +9,58 @@ import Foundation
 
 class RideService {
     private let baseURL = "https://www.strava.com/api/v3"
+    static var authToken: String?
+
+    func getZones() async throws -> Zones {
+        guard let url = URL(string: "\(baseURL)/athlete/zones") else {
+            throw NetworkError.invalidURL
+        }
+
+        var request = URLRequest(url: url)
+        request.setValue("Bearer \(RideService.authToken ?? "")", forHTTPHeaderField: "Authorization")
+
+        let (data, _) = try await URLSession.shared.data(for: request)
+
+//        if let jsonString = String(data: data, encoding: .utf8) {
+//            print("Response JSON: \(jsonString)")
+//        }
+
+        let dto = try JSONDecoder().decode(ZonesDTO.self, from: data)
+        let zones = Zones(dto: dto)
+     
+        return zones
+    }
+
+    func getProfile(
+        athleteId: Int
+    ) async throws -> Totals {
+
+        guard
+            let url = URL(
+                string:
+                    "\(baseURL)/athletes/\(athleteId)/stats"
+            )
+        else {
+            throw NetworkError.invalidURL
+        }
+
+        var request = URLRequest(url: url)
+        request.setValue("Bearer \(RideService.authToken ?? "")", forHTTPHeaderField: "Authorization")
+
+        let (data, _) = try await URLSession.shared.data(for: request)
+        
+        // if let jsonString = String(data: data, encoding: .utf8) {
+        //     print("Response JSON: \(jsonString)")
+        // }
+
+        let totalsDTO = try JSONDecoder().decode(TotalsDTO.self, from: data)
+        let totals = Totals(dto: totalsDTO)
+
+        return totals
+    }
 
     func fetchRides(
-        token: String, after: Int = 1_746_404_036, perPage: Int = 100
+        after: Int = 1_746_404_036, perPage: Int = 100
     ) async throws -> [Ride] {
 
         guard
@@ -24,7 +73,7 @@ class RideService {
         }
 
         var request = URLRequest(url: url)
-        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        request.setValue("Bearer \(RideService.authToken ?? "")", forHTTPHeaderField: "Authorization")
 
         let (data, _) = try await URLSession.shared.data(for: request)
 
