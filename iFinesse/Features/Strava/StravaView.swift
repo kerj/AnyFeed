@@ -29,7 +29,7 @@ struct StravaView: View {
                 }
             } else {
                 VStack {
-                    TextField("Enter App ID:", text: $viewModel.appId)
+                    TextField("Enter Client ID:", text: $viewModel.appId)
                         .textFieldStyle(.roundedBorder)
                     TextField("Enter Client Secret:", text: $viewModel.secret)
                         .textFieldStyle(.roundedBorder)
