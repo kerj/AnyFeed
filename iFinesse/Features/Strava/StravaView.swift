@@ -9,25 +9,24 @@ import SwiftUI
 
 struct StravaView: View {
     @StateObject private var viewModel = ViewModel()
-    @State private var rides: [Ride]? = nil
-    @State private var currentAthlete: Athlete? = nil
     
-
     var body: some View {
         VStack {
-            if viewModel.authToken != nil {
+            if viewModel.currentAthlete != nil {
                 Group {
-                    if let rides = rides {
-                        RideListView(rides: rides, athlete: currentAthlete ?? Athlete(from: AthleteDTO()))
+                    if let loadedZones = viewModel.zones,
+                       let loadedStats = viewModel.stats,
+                       let currentAthlete = viewModel.currentAthlete
+                    {
+                        AthleteProfile(
+                            zones: loadedZones, stats: loadedStats, athlete: currentAthlete)
                     } else {
-                        Text("Fetching Activities...")
+                        Text("Loading Profile...")
                     }
+
                 }.task {
-                    let fetched = await viewModel.fetchStravaRideList()
-                    currentAthlete = viewModel.currentAthlete ?? Athlete(from: AthleteDTO())
-                    rides = fetched
+                    await viewModel.getAthleteProfile()
                 }
-                
             } else {
                 VStack {
                     TextField("Enter App ID:", text: $viewModel.appId)
