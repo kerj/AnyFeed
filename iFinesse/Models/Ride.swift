@@ -366,6 +366,138 @@ struct Ride {
     }
 }
 
+struct ZonesDTO: Decodable {
+    let heart_rate: HeartRateDTO?
+    let power: PowerDTO?
+}
+
+struct HeartRateDTO: Decodable {
+    let custom_zones: Bool?
+    let zones: [ZoneDTO]?
+}
+
+struct PowerDTO: Decodable {
+    let zones: [ZoneDTO]?
+}
+
+struct ZoneDTO: Decodable {
+    let min: Int?
+    let max: Int?
+}
+
+
+struct Zones {
+    let heartRate: HeartRate?
+    let power: Power?
+    
+    init(dto: ZonesDTO) {
+        self.heartRate = dto.heart_rate.map { HeartRate(dto: $0) }
+        self.power = dto.power.map { Power(dto: $0) }
+    }
+}
+
+struct HeartRate {
+    let customZones: Bool
+    let zones: [Zone]
+    
+    init(dto: HeartRateDTO) {
+        self.customZones = dto.custom_zones ?? false
+        self.zones = (dto.zones ?? []).map { Zone(dto: $0) }
+    }
+}
+
+struct Power {
+    let zones: [Zone]
+    
+    init(dto: PowerDTO) {
+        self.zones = (dto.zones ?? []).map { Zone(dto: $0) }
+    }
+}
+
+struct Zone {
+    let min: Int
+    let max: Int
+    
+    init(dto: ZoneDTO) {
+        self.min = dto.min ?? 0
+        self.max = dto.max ?? 0
+    }
+}
+
+struct TotalsDTO: Decodable {
+    let biggest_ride_distance: Double?
+    let biggest_climb_elevation_gain: Double?
+    
+    let recent_ride_totals: ActivityTotalDTO?
+    let all_ride_totals: ActivityTotalDTO?
+    
+    let recent_run_totals: ActivityTotalDTO?
+    let all_run_totals: ActivityTotalDTO?
+    
+    let recent_swim_totals: ActivityTotalDTO?
+    let all_swim_totals: ActivityTotalDTO?
+    
+    let ytd_ride_totals: ActivityTotalDTO?
+    let ytd_run_totals: ActivityTotalDTO?
+    let ytd_swim_totals: ActivityTotalDTO?
+}
+
+struct ActivityTotalDTO: Decodable {
+    let count: Int?
+    let distance: Double?
+    let moving_time: Int?
+    let elapsed_time: Int?
+    let elevation_gain: Double?
+    let achievement_count: Int?
+}
+
+struct ActivityTotal {
+    let distance: Double
+    let achievementCount: Int
+    let count: Int
+    let elapsedTime: Int
+    let elevationGain: Double
+    let movingTime: Int
+
+    init(dto: ActivityTotalDTO?) {
+        self.distance = dto?.distance ?? 0.0
+        self.achievementCount = dto?.achievement_count ?? 0
+        self.count = dto?.count ?? 0
+        self.elapsedTime = dto?.elapsed_time ?? 0
+        self.elevationGain = dto?.elevation_gain ?? 0.0
+        self.movingTime = dto?.moving_time ?? 0
+    }
+}
+
+struct Totals {
+    let recentRunTotals: ActivityTotal
+    let allRunTotals: ActivityTotal
+    let recentSwimTotals: ActivityTotal
+    let biggestRideDistance: Double
+    let ytdSwimTotals: ActivityTotal
+    let allSwimTotals: ActivityTotal
+    let recentRideTotals: ActivityTotal
+    let biggestClimbElevationGain: Double
+    let ytdRideTotals: ActivityTotal
+    let allRideTotals: ActivityTotal
+    let ytdRunTotals: ActivityTotal
+
+    init(dto: TotalsDTO) {
+        self.recentRunTotals = ActivityTotal(dto: dto.recent_run_totals)
+        self.allRunTotals = ActivityTotal(dto: dto.all_run_totals)
+        self.recentSwimTotals = ActivityTotal(dto: dto.recent_swim_totals)
+        self.biggestRideDistance = dto.biggest_ride_distance.or(0.0)
+        self.ytdSwimTotals = ActivityTotal(dto: dto.ytd_swim_totals)
+        self.allSwimTotals = ActivityTotal(dto: dto.all_swim_totals)
+        self.recentRideTotals = ActivityTotal(dto: dto.recent_ride_totals)
+        self.biggestClimbElevationGain = dto.biggest_climb_elevation_gain.or(0.0)
+        self.ytdRideTotals = ActivityTotal(dto: dto.ytd_ride_totals)
+        self.allRideTotals = ActivityTotal(dto: dto.all_ride_totals)
+        self.ytdRunTotals = ActivityTotal(dto: dto.ytd_run_totals)
+    }
+}
+
+
 let testAthlete: AthleteDTO = AthleteDTO(
     id: 134815,
     resource_state: 1
