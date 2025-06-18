@@ -11,7 +11,7 @@ struct RideListView: View {
         }
     }
     
-    init(rides: [Ride], athlete: Athlete) {
+    init(rides: [Ride]? = nil, athlete: Athlete) {
         _viewModel = StateObject(wrappedValue: ViewModel(rides: rides, fullAthlete: athlete))
     }
     

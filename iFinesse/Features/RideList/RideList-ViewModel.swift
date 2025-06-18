@@ -48,11 +48,30 @@ extension RideListView {
         @Published var errorMessage: String?
         
 
-        init(rides: [Ride], fullAthlete: Athlete, errorMessage: String? = nil) {
-            self.rides = rides
+        init(rides: [Ride]?, fullAthlete: Athlete, errorMessage: String? = nil) {
             self.fullAthlete = fullAthlete
             self.errorMessage = errorMessage
+            
+            if let rides = rides {
+                self.rides = rides
+            } else {
+                Task {
+                    await fetchRides()
+                }
+            }
         }
+        
+        private func fetchRides() async {
+            do {
+                     let fetched = try await RideService().fetchRides()
+                     await MainActor.run {
+                         self.rides = fetched
+                     }
+                 } catch {
+                     print("Failed to fetch rides:", error)
+                 }
+             }
+        
 
         var displayRides: [RideViewModel] {
             rides.map { RideViewModel(ride: $0, fullAthlete: fullAthlete) }
