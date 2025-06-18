@@ -26,7 +26,6 @@ struct RideMapSnapshotWithLink: View {
             .navigationBarTitleDisplayMode(.inline)
         } label: {
             ZStack {
-//                Rectangle()
                 RideMapSnapshotView(
                     region: region,
                     polyline: polyline,
