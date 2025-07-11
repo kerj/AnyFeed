@@ -63,7 +63,7 @@ extension RideListView {
         
         private func fetchRides() async {
             do {
-                     let fetched = try await RideService().fetchRides()
+                let fetched = try await RideService.shared.fetchRides()
                      await MainActor.run {
                          self.rides = fetched
                      }

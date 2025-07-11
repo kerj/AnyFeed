@@ -8,8 +8,17 @@
 import Foundation
 
 class RideService {
+    static let shared = RideService()
+    private init() {}
+    private var authToken: String?
     private let baseURL = "https://www.strava.com/api/v3"
-    static var authToken: String?
+    
+    func setAuthToken(token: String) {
+        authToken = token
+    }
+
+    
+
 
     func getZones() async throws -> Zones {
         guard let url = URL(string: "\(baseURL)/athlete/zones") else {
@@ -17,7 +26,7 @@ class RideService {
         }
 
         var request = URLRequest(url: url)
-        request.setValue("Bearer \(RideService.authToken ?? "")", forHTTPHeaderField: "Authorization")
+        request.setValue("Bearer \(authToken ?? "")", forHTTPHeaderField: "Authorization")
 
         let (data, _) = try await URLSession.shared.data(for: request)
 
@@ -45,7 +54,7 @@ class RideService {
         }
 
         var request = URLRequest(url: url)
-        request.setValue("Bearer \(RideService.authToken ?? "")", forHTTPHeaderField: "Authorization")
+        request.setValue("Bearer \(authToken ?? "")", forHTTPHeaderField: "Authorization")
 
         let (data, _) = try await URLSession.shared.data(for: request)
         
@@ -73,7 +82,7 @@ class RideService {
         }
 
         var request = URLRequest(url: url)
-        request.setValue("Bearer \(RideService.authToken ?? "")", forHTTPHeaderField: "Authorization")
+        request.setValue("Bearer \(authToken ?? "")", forHTTPHeaderField: "Authorization")
 
         let (data, _) = try await URLSession.shared.data(for: request)
 
