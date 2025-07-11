@@ -70,6 +70,7 @@ extension StravaView {
                 }
 
                 authSession?.presentationContextProvider = self
+                authSession?.prefersEphemeralWebBrowserSession = true
                 authSession?.start()
             }
         }
@@ -128,7 +129,7 @@ extension StravaView {
                 {
                     // Main thread update
                     await MainActor.run {
-                        RideService.authToken = accessToken
+                        RideService.shared.setAuthToken(token: accessToken)
                     }
                     getAthleteFromAuth(athleteJson: athlete)
 
@@ -169,7 +170,7 @@ extension StravaView {
             else { return }
 
             do {
-                let zones = try await RideService().getZones()
+                let zones = try await RideService.shared.getZones()
                 await MainActor.run {
                     self.zones = zones
                 }
@@ -178,7 +179,7 @@ extension StravaView {
             }
 
             do {
-                let stats = try await RideService().getProfile(
+                let stats = try await RideService.shared.getProfile(
                     athleteId: athlete.id)
                 await MainActor.run {
                     self.stats = stats
